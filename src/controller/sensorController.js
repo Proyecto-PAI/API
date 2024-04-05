@@ -9,6 +9,7 @@ exports.postSensorData = async (req, res) => {
   }
 };
 
+
 exports.getSensorData = async (req, res) => {
   try {
     const sensors = await Sensor.find();
