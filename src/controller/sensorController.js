@@ -1,13 +1,23 @@
 const Sensor = require('../models/SensorModel');
 
-exports.postSensorData = async (req, res) => {
+exports.createSensorData = async (req, res) => {
   try {
-    const sensor = await Sensor.create(req.body);
-    res.status(201).json(sensor);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+      const { mH, Pho_7in1, Pot_7in1, Nit_7in1, Moi_7in1, Tem_7in1, Ph_7in1, Con_7in1 } = req.body;
+      const date = new Date().toLocaleString("es-CO", {timeZone: "America/Bogota"});
+      const sensorData = new Sensor({
+          mH, Pho_7in1, Pot_7in1, Nit_7in1, Moi_7in1, Tem_7in1, Ph_7in1, Con_7in1,
+          actualDate: date
+      });
+
+      await sensorData.save();
+
+      res.status(201).json({ message: 'Sensor data created successfully' });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 
 exports.getSensorData = async (req, res) => {
